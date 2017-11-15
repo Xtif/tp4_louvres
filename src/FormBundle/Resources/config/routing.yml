@@ -1,0 +1,26 @@
+info_reservation:
+    path:      /info_reservation
+    defaults:
+        _controller: FormBundle:Form:reservation
+
+info_billet:
+    path:      /info_billet/{id}
+    defaults:
+        _controller: FormBundle:Form:billet
+    requirements:
+        id: \d*
+
+info_recapitulatif:
+    path:      /recapitulatif/{id}
+    defaults:
+        _controller: FormBundle:Form:recapitulatif
+    requirements:
+        id: \d*
+
+info_paiement:
+    path:      /paiement/{id}
+    defaults:
+        _controller: FormBundle:Form:paiement
+    requirements:
+        id: \d*
+

@@ -1,0 +1,12 @@
+img {
+	width: 100%;
+}
+
+.fil-arianne-off {
+	color: grey;
+	opacity: 0.5;
+}
+
+.breadcrumb-item.active {
+	color: black !important;
+}

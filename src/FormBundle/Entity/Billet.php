@@ -28,11 +28,10 @@ class Billet
     private $reservation;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="jour_billet", type="datetime")
+     * @ORM\ManyToOne(targetEntity="FormBundle\Entity\Jour", inversedBy="billets")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $jourBillet;
+    private $jour;
 
     /**
      * @var bool
@@ -65,7 +64,7 @@ class Billet
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_naissance", type="datetime")
+     * @ORM\Column(name="date_naissance", type="date")
      */
     private $dateNaissance;
 
@@ -83,6 +82,16 @@ class Billet
      */
     private $prixBillet;
 
+    
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->prixBillet = 0;
+        $this->tarifReduit = false;
+    }
 
     /**
      * Get id
@@ -101,9 +110,9 @@ class Billet
      *
      * @return Billet
      */
-    public function setJourBillet($jourBillet)
+    public function setJour($jour)
     {
-        $this->jourBillet = $jourBillet;
+        $this->jour = $jour;
 
         return $this;
     }
@@ -113,9 +122,9 @@ class Billet
      *
      * @return \DateTime
      */
-    public function getJourBillet()
+    public function getJour()
     {
-        return $this->jourBillet;
+        return $this->jour;
     }
 
     /**

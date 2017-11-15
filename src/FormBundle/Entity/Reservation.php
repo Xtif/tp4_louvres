@@ -22,6 +22,12 @@ class Reservation
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="FormBundle\Entity\Jour", inversedBy="reservation", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $jour;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="nom_reservation", type="string", length=255)
@@ -45,13 +51,6 @@ class Reservation
     /**
      * @var int
      *
-     * @ORM\Column(name="nbre_billets", type="integer")
-     */
-    private $nbreBillets;
-
-    /**
-     * @var int
-     *
      * @ORM\Column(name="prix_total", type="integer")
      */
     private $prixTotal;
@@ -62,6 +61,15 @@ class Reservation
      */
     private $billets;
 
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->billets = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->prixTotal = 0;
+    }
 
     /**
      * Get id
@@ -146,30 +154,6 @@ class Reservation
     }
 
     /**
-     * Set nbreBillets
-     *
-     * @param integer $nbreBillets
-     *
-     * @return Reservation
-     */
-    public function setNbreBillets($nbreBillets)
-    {
-        $this->nbreBillets = $nbreBillets;
-
-        return $this;
-    }
-
-    /**
-     * Get nbreBillets
-     *
-     * @return int
-     */
-    public function getNbreBillets()
-    {
-        return $this->nbreBillets;
-    }
-
-    /**
      * Set prixTotal
      *
      * @param integer $prixTotal
@@ -191,14 +175,6 @@ class Reservation
     public function getPrixTotal()
     {
         return $this->prixTotal;
-    }
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->billets = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -233,5 +209,29 @@ class Reservation
     public function getBillets()
     {
         return $this->billets;
+    }
+
+    /**
+     * Set jour
+     *
+     * @param \FormBundle\Entity\Jour $jour
+     *
+     * @return Reservation
+     */
+    public function setJour(\FormBundle\Entity\Jour $jour = null)
+    {
+        $this->jour = $jour;
+
+        return $this;
+    }
+
+    /**
+     * Get jour
+     *
+     * @return \FormBundle\Entity\Jour
+     */
+    public function getJour()
+    {
+        return $this->jour;
     }
 }

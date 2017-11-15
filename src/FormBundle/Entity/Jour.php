@@ -24,16 +24,31 @@ class Jour
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="jour", type="datetime", unique=true)
+     * @ORM\Column(name="jour", type="date", unique=true)
      */
     private $jour;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="nbre_billets_jour", type="integer")
+     * @ORM\OneToMany(targetEntity="FormBundle\Entity\Reservation", mappedBy="jour")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $nbre_billets_jour;
+    private $reservations;
+
+    /**
+     * @ORM\OneToMany(targetEntity="FormBundle\Entity\Billet", mappedBy="jour")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $billets;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->reservations = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->billets = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 
     /**
@@ -71,26 +86,72 @@ class Jour
     }
 
     /**
-     * Set nbreBilletsJour
+     * Add billet
      *
-     * @param integer $nbreBilletsJour
+     * @param \FormBundle\Entity\Billet $billet
      *
      * @return Jour
      */
-    public function setNbreBilletsJour($nbreBilletsJour)
+    public function addBillet(\FormBundle\Entity\Billet $billet)
     {
-        $this->nbre_billets_jour = $nbreBilletsJour;
+        $this->billets[] = $billet;
 
         return $this;
     }
 
     /**
-     * Get nbreBilletsJour
+     * Remove billet
      *
-     * @return integer
+     * @param \FormBundle\Entity\Billet $billet
      */
-    public function getNbreBilletsJour()
+    public function removeBillet(\FormBundle\Entity\Billet $billet)
     {
-        return $this->nbre_billets_jour;
+        $this->billets->removeElement($billet);
     }
+
+    /**
+     * Get billets
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBillets()
+    {
+        return $this->billets;
+    }
+
+    /**
+     * Add reservation
+     *
+     * @param \FormBundle\Entity\Reservation $reservation
+     *
+     * @return Jour
+     */
+    public function addReservation(\FormBundle\Entity\Reservation $reservation)
+    {
+        $this->reservations[] = $reservation;
+
+        return $this;
+    }
+
+    /**
+     * Remove reservation
+     *
+     * @param \FormBundle\Entity\Reservation $reservation
+     */
+    public function removeReservation(\FormBundle\Entity\Reservation $reservation)
+    {
+        $this->reservations->removeElement($reservation);
+    }
+
+    /**
+     * Get reservations
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getReservations()
+    {
+        return $this->reservations;
+    }
+
+
 }

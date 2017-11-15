@@ -1,0 +1,29 @@
+{% extends '::layout.html.twig' %}
+
+
+{% block body %}
+
+
+<!--Fil d'arianne-->
+	<nav aria-label="breadcrumb" role="navigation">
+	  <ol class="breadcrumb rounded-0">
+	    <li class="breadcrumb-item"><a href="{{ path('info_reservation') }}">Réservation</a></li>
+	    <li class="breadcrumb-item"><a href="{{ path('info_billet', {'id': reservation.id}) }}">Billets</a></li>
+	    <li class="breadcrumb-item"><a href="{{ path('info_recapitulatif', {'id': reservation.id}) }}">Récapitulatif</a></li>
+	    <li class="breadcrumb-item active" aria-current="page">Paiement</li>
+	    <li class="breadcrumb-item fil-arianne-off">Validation</li>
+	  </ol>
+	</nav>
+
+
+
+
+<!--Formulaire-->
+<div class="col-8 m-auto">
+	<h1 class="mt-3">Réservation de billets - Paiement</h1>
+
+
+	<h3>Total à payer : {{ reservation.prixTotal }}</h3>
+
+
+{% endblock %}
