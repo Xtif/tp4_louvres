@@ -3,6 +3,7 @@
 namespace FormBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Intl\Intl;
 
 /**
  * Billet
@@ -209,7 +210,8 @@ class Billet
      */
     public function setPays($pays)
     {
-        $this->pays = $pays;
+        // Récuperation du nom complet à partir du code pays
+        $this->pays = Intl::getRegionBundle()->getCountryName($pays, 'fr');
 
         return $this;
     }
