@@ -9,7 +9,7 @@
 	<nav aria-label="breadcrumb" role="navigation">
 	  <ol class="breadcrumb rounded-0">
 	    <li class="breadcrumb-item"><a href="{{ path('info_reservation') }}">Réservation</a></li>
-	    <li class="breadcrumb-item"><a href="{{ path('info_billet', {'id': reservation.id}) }}">Billets</a></li>
+	    <li class="breadcrumb-item"><a href="{{ path('info_billet') }}">Billets</a></li>
 	    <li class="breadcrumb-item active" aria-current="page">Récapitulatif</li>
 	    <li class="breadcrumb-item fil-arianne-off">Paiement</li>
 	    <li class="breadcrumb-item fil-arianne-off">Validation</li>
@@ -19,23 +19,27 @@
 
 
 
-<!--Formulaire-->
+<!--Titre-->
 <div class="col-8 m-auto">
 	<h1 class="mt-3">Réservation de billets - Récapitulatif</h1>
+</div>
 
 
-
+<!--Tableau-->
+<div class="col-10 m-auto">
 	<table class="table">
 
 	  <thead class="bg-light">
 	    <tr>
 	      <th>Billet</th>
-	      <th>Nom</th>
-	      <th>Prénom</th>
-	      <th>Pays</th>
-	      <th>Date de naissance</th>
-	      <th>Tarif réduit</th>
-	      <th>Prix</th>
+	      <th class="text-right">Nom</th>
+	      <th class="text-right">Prénom</th>
+	      <th class="text-right">Pays</th>
+	      <th class="text-right">Date de naissance</th>
+	      <th class="text-right">Type de billet</th>
+	      <th class="text-right">Tarif réduit</th>
+	      <th class="text-right">Prix</th>
+	      <th class="text-right">Gérer</th>
 	    </tr>
 	  </thead>
 
@@ -45,12 +49,14 @@
 	  	{% for billet in reservation.billets %}
 		    <tr>
 		      <th scope="row">1</th>
-		      <td>{{ billet.nom }}</td>
-		      <td>{{ billet.prenom }}</td>
-		      <td>{{ billet.pays }}</td>
-		      <td>{{ billet.dateNaissance|date('d/m/Y') }}</td>
-		      <td>{{ billet.tarifReduit }}</td>
-		      <td>{{ billet.prixBillet }}</td>
+		      <td class="text-right">{{ billet.nom }}</td>
+		      <td class="text-right">{{ billet.prenom }}</td>
+		      <td class="text-right">{{ billet.pays }}</td>
+		      <td class="text-right">{{ billet.dateNaissance|date('d/m/Y') }}</td>
+		      <td class="text-right">{% if billet.type == 0 %}Demi-journée{% else %}Journée{% endif %}</td>
+		      <td class="text-right">{% if billet.tarifReduit == 1 %}Oui{% else %}Non{% endif %}</td>
+		      <td class="text-right">{{ billet.prixBillet }} €</td>
+		      <td class="text-right"><a href="#">Supprimer</a></td>
 		    </tr>
 	    {% endfor %}
 	  </tbody>
@@ -59,9 +65,14 @@
 
 
 
-	<h3 class="text-right">Prix total : {{ reservation.prixTotal }}</h3>
-	<a class="float-right btn btn-info m-auto" href="{{ path('info_paiement', {'id': reservation.id}) }}" role="button">Valider et passer au paiement</a>
-
+	<div class="clearfix">
+		<h4 class="float-left">Jour de la visite : le {{ reservation.jour.jour|date('d/m/Y') }}</h4>
+		<h4 class="float-right">Prix total : {{ reservation.prixTotal }} €</h4>
+	</div>
+	<div class="clearfix">
+		<a class="float-left btn btn-secondary m-auto" href="{{ path('info_billet') }}" role="button">Retour à la liste des billets</a>
+		<a class="float-right btn btn-info m-auto" href="{{ path('info_paiement') }}" role="button">Valider et passer au paiement</a>
+	</div>
 
 </div>
 

@@ -11,7 +11,13 @@ class JourType extends AbstractType
 {
   public function buildForm(FormBuilderInterface $builder, array $options)
   {
-    $builder->add('jour', DateType::class);
+    $builder->add('jour', DateType::class, array(
+      'widget' => 'single_text',
+      'html5'  => false,
+      'attr'   => ['class' => 'datepicker'],
+      'format' => 'd/M/y',
+      'label'  => false
+    ));
   }
 
   public function configureOptions(OptionsResolver $resolver)

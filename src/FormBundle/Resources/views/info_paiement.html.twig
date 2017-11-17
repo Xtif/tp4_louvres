@@ -26,4 +26,10 @@
 	<h3>Total à payer : {{ reservation.prixTotal }}</h3>
 
 
+
+	<h3 class="text-right">Prix total : {{ reservation.prixTotal }}</h3>
+	<a class="float-left btn btn-secondary m-auto" href="{{ path('info_recapitulatif') }}" role="button">Retour au récapitulatif</a>
+	<a class="float-right btn btn-info m-auto" href="#" role="button">Payer</a>
+
+
 {% endblock %}

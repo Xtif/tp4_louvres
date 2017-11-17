@@ -22,7 +22,7 @@ class Reservation
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="FormBundle\Entity\Jour", inversedBy="reservation", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="FormBundle\Entity\Jour", inversedBy="reservations", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $jour;

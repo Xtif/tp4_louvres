@@ -2,3 +2,6 @@ services:
 #    form.example:
 #        class: FormBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+     form.calculPrix:
+         class: FormBundle\CalculPrix\CalculPrix

@@ -39,7 +39,7 @@
 	{# Génération du label #}
 	{{ form_label(form.jour, "Date de visite") }}
 	{# Génération de l'input #}
-	{{ form_widget(form.jour) }}
+	{{ form_widget(form.jour, {'attr': {'class': 'col-3 p-0'}}) }}
 	{# Affichage des erreurs liées au champ #}
 	{{ form_errors(form.jour) }}
 </div>
@@ -72,7 +72,7 @@
 </div>
 
 <div class="form-group">
-	{{ form_widget(form.submit, {'attr': {'class': 'bg-info bouton-formulaire'}}) }}
+	{{ form_widget(form.submit, {'attr': {'class': 'bg-info bouton-formulaire'}, 'label': 'Valider'}) }}
 </div>
 
 
