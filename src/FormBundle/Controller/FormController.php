@@ -65,12 +65,8 @@ class FormController extends Controller
 			// On fait le lien Requete <=> Formulaire, la variable $reservation contient les valeurs entrées dans le formulaire
 			$form->handleRequest($request);
 
-
-
 			// Si les données sont correctes
 			if ($form->isValid()) { 
-
-
 
 				$jour = $this->getDoctrine()->getManager()->getRepository('FormBundle:Jour')->findOneBy(array('jour' => $reservation->getJour()->getJour()));
 
@@ -108,13 +104,6 @@ class FormController extends Controller
 		// Récupération de la réservation
 		$reservation = $this->getDoctrine()->getManager()->getRepository('FormBundle:Reservation')->find($session->get('reservation_id'));
 
-		// Création du billet
-		$billet = new Billet();
-
-		// Assignation des valeurs de la réservation au billet
-		$billet->setReservation($reservation);
-		$billet->setJour($reservation->getJour());
-
 		// Création du formulaire
 		$formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $reservation);
 
@@ -131,14 +120,21 @@ class FormController extends Controller
 		
 		if ($request->isMethod('POST')) {
 
-			// On fait le lien Requete <=> Formulaire, la variable $reservation contientles valeurs entrées dans le formulaire
+			// On fait le lien Requete <=> Formulaire, la variable $reservation contient les valeurs entrées dans le formulaire
 			$form->handleRequest($request);
 
 			// Si les données sont correctes
 			if ($form->isValid()) { 
 
 				$em = $this->getDoctrine()->getManager();
+
+				foreach ($reservation->getBillets() as $billet) {
+					$billet->setReservation($reservation);
+					$billet->setJour($reservation->getJour());
+				}
+				
 				$em->persist($reservation);
+
 				$em->flush();
 
 				return $this->redirectToRoute('info_recapitulatif');

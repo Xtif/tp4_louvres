@@ -56,7 +56,7 @@ class Reservation
     private $prixTotal;
 
     /**
-     * @ORM\OneToMany(targetEntity="FormBundle\Entity\Billet", mappedBy="reservation")
+     * @ORM\OneToMany(targetEntity="FormBundle\Entity\Billet", mappedBy="reservation", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $billets;
@@ -187,6 +187,9 @@ class Reservation
     public function addBillet(\FormBundle\Entity\Billet $billet)
     {
         $this->billets[] = $billet;
+
+        // On lie le billet à la réservation
+        $billet->setReservation($this);
 
         return $this;
     }

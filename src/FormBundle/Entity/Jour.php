@@ -96,6 +96,9 @@ class Jour
     {
         $this->billets[] = $billet;
 
+        // On lie le billet au jour
+        $billet->setJour($this);
+
         return $this;
     }
 
@@ -129,6 +132,9 @@ class Jour
     public function addReservation(\FormBundle\Entity\Reservation $reservation)
     {
         $this->reservations[] = $reservation;
+
+        // On lie la reservation au jour
+        $reservation->setJour($this);
 
         return $this;
     }
