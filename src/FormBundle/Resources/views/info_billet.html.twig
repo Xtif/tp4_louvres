@@ -17,10 +17,9 @@
 
 
 
-
 <!--Formulaire-->
 <div class="col-8 m-auto">
-	<h1 class="mt-3">Réservation de billets - Vos informations</h1>
+	<h1 class="mt-3">Informations sur vos billets</h1>
 
 	<h4>Date de réservation : <span id="date-visite">{{ reservation.jour.jour|date('d/m/Y') }}</span></h4>
 
@@ -29,80 +28,94 @@
 	{# Erreurs générales #}
 	{{ form_errors(form) }} 
 
-	{# Champs du formulaire #}
-	<div class="form-group">
-		{# Génération du label #}
-		{{ form_label(form.nom, "Nom") }}
-		{# Génération de l'input #}
-		{{ form_widget(form.nom, {'attr':{'value': reservation.nomReservation }}) }}
-		{# Affichage des erreurs liées au champ #}
-		{{ form_errors(form.nom) }}
-	</div>
-
-	<div class="form-group">
-		{# Génération du label #}
-		{{ form_label(form.prenom, "Prénom") }}
-		{# Génération de l'input #}
-		{{ form_widget(form.prenom, {'attr':{'value': reservation.prenomReservation }}) }}
-		{# Affichage des erreurs liées au champ #}
-		{{ form_errors(form.prenom) }}
-	</div>
-
-	<div class="form-group">
-		{# Génération du label #}
-		{{ form_label(form.pays, "Pays") }}
-		{# Génération de l'input #}
-		{{ form_widget(form.pays) }}
-		{# Affichage des erreurs liées au champ #}
-		{{ form_errors(form.pays) }}
-	</div>
-
-	<div class="form-group">
-		{# Génération du label #}
-		{{ form_label(form.dateNaissance, "Date de naissance") }}
-		{# Génération de l'input #}
-		{{ form_widget(form.dateNaissance) }}
-		{# Affichage des erreurs liées au champ #}
-		{{ form_errors(form.dateNaissance) }}
-	</div>
-
-	<div class="form-group">
-		{# Génération du label #}
-		{{ form_label(form.type, "Type de billet") }}
-		{# Génération de l'input #}
-		{{ form_widget(form.type) }}
-		{# Affichage des erreurs liées au champ #}
-		{{ form_errors(form.type) }}
-		<p id="billet-indisponible" hidden>Le billet journée n'est plus disponible à partir de 14h.</p>
-	</div>
-
-	<div class="form-group">
-		{# Génération du label #}
-		{{ form_label(form.tarifReduit, "Tarif réduit (étudiant, employés du musée, employés du ministère de la culture, militaire)") }}
-		{# Génération de l'input #}
-		{{ form_widget(form.tarifReduit) }}
-		{# Affichage des erreurs liées au champ #}
-		{{ form_errors(form.tarifReduit) }}
-		<p id="tarif-reduit">Un justificatif vous sera demandé pour accéder au musée.</p>
-	</div>
-
-	<div class="form-group">
-		{{ form_widget(form.submit, {'attr': {'class': 'bg-info bouton-formulaire'}, 'label': 'Valider'}) }}
-	</div>
-
+	{{ form_widget(form.billets) }}
 
 	
 
+	<hr>
 
-		{{ form_rest(form) }}
+	<a href="#" id="ajout_billet" class="btn btn-success"><i class="fa fa-plus"></i>Ajouter un billet</a>
+
+	<hr>
+
+	<div class="form-group">
+		{{ form_widget(form.submit, {'attr': {'class': 'bg-info float-right bouton-formulaire'}, 'label': 'Valider'}) }}
+	</div>
+
+	{{ form_rest(form) }}
 
 	{{ form_end(form) }}
+
 
 	<a class="float-left btn btn-secondary m-auto" href="{{ path('info_reservation') }}" role="button">Retour à la reservation</a>
 
 </div>
 
+<!--
 
+<div id="form_billets" data-prototype=>
+
+	<div class="form-group">
+		<label class="control-label required">__name__label__</label>
+
+		<div id="form_billets___name__">
+
+			<div class="form-group">
+				<label class="control-label required" for="form_billets___name___nom">Nom</label>
+				<input type="text" id="form_billets___name___nom" name="form[billets][__name__][nom]" required="required" class="form-control" />
+			</div>
+
+			<div class="form-group">
+				<label class="control-label required" for="form_billets___name___prenom">Prenom</label>
+				<input type="text" id="form_billets___name___prenom" name="form[billets][__name__][prenom]" required="required" class="form-control" />
+			</div>
+
+			<div class="form-group">
+				<label class="control-label required" for="form_billets___name___pays">Pays</label>
+				<select id="form_billets___name___pays" name="form[billets][__name__][pays]" class="form-control">
+					<option value="AF">Afghanistan</option>
+					<option value="AX">Åland Islands</option>
+					<option value="AL">Albania</option>
+				</select>
+			</div>
+
+			<div class="form-group">
+				<input type="text" id="form_billets___name___dateNaissance" name="form[billets][__name__][dateNaissance]" required="required" class="date-naissance col-3 form-control" />
+			</div>
+
+			<div class="form-group">
+				<label class="control-label required">Type</label>
+				<div id="form_billets___name___type">
+					<div class="radio">
+					  <label for="form_billets___name___type_0" class="required">
+					  	<input type="radio" id="form_billets___name___type_0" name="form[billets][__name__][type]" required="required" value="0" /> Demi-journée (à partir de 14h)
+					  </label>
+    			</div>
+    			<div class="radio">
+    			  <label for="form_billets___name___type_1" class="required">
+    			  	<input type="radio" id="form_billets___name___type_1" name="form[billets][__name__][type]" required="required" value="1" /> 
+    			  	Journée
+    			  </label>
+    			</div>
+    		</div>
+    	</div>
+
+    	<div class="form-group">
+    		<div class="checkbox">
+    			<label for="form_billets___name___tarifReduit">
+    				<input type="checkbox" id="form_billets___name___tarifReduit" name="form[billets][__name__][tarifReduit]" value="1" /> 
+    				Tarif reduit</label>
+    		</div>
+    	</div>
+
+    </div>
+  </div>
+
+  ">
+</div>
+
+-->
 
 {% endblock %}
+
 

@@ -46,18 +46,24 @@
 
 	  
 	  <tbody>
+	  	{% set numBillet = 1 %}
 	  	{% for billet in reservation.billets %}
 		    <tr>
-		      <th scope="row">1</th>
+		      <th scope="row">{{ numBillet }}</th>
 		      <td class="text-right">{{ billet.nom }}</td>
 		      <td class="text-right">{{ billet.prenom }}</td>
 		      <td class="text-right">{{ billet.pays }}</td>
 		      <td class="text-right">{{ billet.dateNaissance|date('d/m/Y') }}</td>
 		      <td class="text-right">{% if billet.type == 0 %}Demi-journée{% else %}Journée{% endif %}</td>
 		      <td class="text-right">{% if billet.tarifReduit == 1 %}Oui{% else %}Non{% endif %}</td>
-		      <td class="text-right">{{ billet.prixBillet }} €</td>
+		      <td class="text-right">
+		      	{% if billet.prixBillet == 0 %}Gratuit
+		      	{% else %}{{ billet.prixBillet }} €
+		      	{% endif %}
+		      </td>
 		      <td class="text-right"><a href="#">Supprimer</a></td>
 		    </tr>
+		    {% set numBillet = numBillet + 1 %}
 	    {% endfor %}
 	  </tbody>
 

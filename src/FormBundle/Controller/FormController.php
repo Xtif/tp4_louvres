@@ -18,15 +18,15 @@ use FormBundle\CalculPrix\CalculPrix;
 
 //Form
 use FormBundle\FormType\JourType;
+use FormBundle\FormType\BilletType;
+
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\CountryType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
+
 
 
 class FormController extends Controller
@@ -70,6 +70,8 @@ class FormController extends Controller
 			// Si les données sont correctes
 			if ($form->isValid()) { 
 
+
+
 				$jour = $this->getDoctrine()->getManager()->getRepository('FormBundle:Jour')->findOneBy(array('jour' => $reservation->getJour()->getJour()));
 
 				if ($jour != null) {
@@ -100,10 +102,6 @@ class FormController extends Controller
 
 	public function billetAction(Request $request) {
 
-		
-
-
-
 		// Récupération de la session
 		$session = $request->getSession();
 
@@ -118,28 +116,15 @@ class FormController extends Controller
 		$billet->setJour($reservation->getJour());
 
 		// Création du formulaire
-		$formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $billet);
+		$formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $reservation);
 
 		// Création des champs du formulaire
 		$formBuilder
-			->add('nom',								TextType::class)
-			->add('prenom',							TextType::class)
-			->add('pays',								CountryType::class)
-			->add('dateNaissance',			DateType::class, array(
-																      'widget' => 'single_text',
-																      'html5'  => false,
-																      'attr'   => ['class' => 'date-naissance col-3'],
-																      'format' => 'dd/mm/yyyy',
-																      'label'  => false))
-			->add('type',								ChoiceType::class, array(
-																			'choices' => array(
-																					'Demi-journée (à partir de 14h)' => '0',
-																					'Journée' => '1'), 
-																			'multiple' => false, 
-																			'expanded' => true))
-			->add('tarifReduit',				CheckboxType::class, array(
-																			'required' => false))
-			->add('submit',							SubmitType::class);
+			->add('billets', CollectionType::class, array(
+					'entry_type'		=> BilletType::class,
+					'allow_add'			=> true,
+					'allow_delete'	=> true))
+			->add('submit',	 SubmitType::class);
 
 		// On génère le formulaire
 		$form = $formBuilder->getForm();
@@ -153,7 +138,7 @@ class FormController extends Controller
 			if ($form->isValid()) { 
 
 				$em = $this->getDoctrine()->getManager();
-				$em->persist($billet);
+				$em->persist($reservation);
 				$em->flush();
 
 				return $this->redirectToRoute('info_recapitulatif');
