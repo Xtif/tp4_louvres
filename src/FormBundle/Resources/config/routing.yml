@@ -18,9 +18,15 @@ info_paiement:
     defaults:
         _controller: FormBundle:Form:paiement
 
+check_nombre_billets_restant:
+    path:      /checkNbreBillet
+    defaults:
+        _controller: FormBundle:Ajax:nbreBilletsRestant
+
 
 clear_session:
     path:      /clear
     defaults:
         _controller: FormBundle:Form:clearSession
+
 

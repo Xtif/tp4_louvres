@@ -84,5 +84,23 @@
 
 </div>
 
+<script type="text/javascript" src="../../web/bundles/form/js/page_reservation_script.js"></script>
+
+<script>
+
+$("body").click(function() {
+	$.ajax({
+		type: "GET",
+		url: "{{ (path('check_nombre_billets_restant')) }}",
+		data: { "date": "lala"},
+		success: function(data) {
+			alert(data);
+		}
+	});
+});
+
+
+</script>
+
 
 {% endblock %}

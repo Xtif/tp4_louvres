@@ -15,7 +15,10 @@ class JourType extends AbstractType
     $builder->add('jour', DateType::class, array(
       'widget' => 'single_text',
       'html5'  => false,
-      'attr'   => ['class' => 'datepicker'],
+      'attr'   => [
+        'class' => 'datepicker', 
+        'readonly' => true
+      ],
       'format' => 'd/M/y',
       'label'  => false
     ));

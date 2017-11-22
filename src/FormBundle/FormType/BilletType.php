@@ -23,19 +23,21 @@ class BilletType extends AbstractType
       ->add('prenom',             TextType::class)
       ->add('pays',               CountryType::class)
       ->add('dateNaissance',      DateType::class, array(
-                                      'widget' => 'single_text',
-                                      'html5'  => false,
-                                      'attr'   => ['class' => 'date-naissance col-3'],
-                                      'format' => 'd/M/y',
-                                      'label'  => false))
+                                      'widget'    => 'single_text',
+                                      'html5'     => false,
+                                      'attr'      => ['class' => 'date-naissance col-3'],
+                                      'format'    => 'd/M/y',
+                                      'label'     => false))
       ->add('type',               ChoiceType::class, array(
-                                      'choices' => array(
+                                      'choices'   => array(
                                           'Demi-journée (à partir de 14h)' => '0',
-                                          'Journée' => '1'), 
-                                      'multiple' => false, 
-                                      'expanded' => true))
+                                          'Journée'                        => '1'), 
+                                      'multiple'  => false, 
+                                      'expanded'  => true))
       ->add('tarifReduit',        CheckboxType::class, array(
-                                      'required' => false, 'label' => 'Tarif réduit (étudiant, employé du musée, employé du ministère de la culture, militaire, chômeur)'));
+                                      'required'  => false, 
+                                      'label'     => 'Tarif réduit (étudiant, employé du musée, employé du ministère de la culture, militaire, chômeur)', 
+                                      'attr'      => ['onclick' => 'tarifReduitToggle(this)']));
   }
 
 
