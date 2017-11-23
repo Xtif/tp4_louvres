@@ -87,17 +87,47 @@
 <script type="text/javascript" src="../../web/bundles/form/js/page_reservation_script.js"></script>
 
 <script>
+$(".datepicker").on('changeDate', function() { // Lorsque la date change
+	// console.log($(this).getDate());
+	var dateSelectionnee = $(this).datepicker("getDate");
 
-$("body").click(function() {
+	// console.log(ladate);
 	$.ajax({
 		type: "GET",
 		url: "{{ (path('check_nombre_billets_restant')) }}",
-		data: { "date": "lala"},
+		data: { "date": dateSelectionnee },
+		dataType: "json",
 		success: function(data) {
-			alert(data);
+			console.log(data);
+			console.log('succès');
+		},
+		error: function() {
+			console.log("error");
+		},
+		complete: function() {
+			console.log("terminée");
 		}
 	});
 });
+
+// $("body").click(function() {
+// 	$.ajax({
+// 		type: "GET",
+// 		url: "{{ (path('check_nombre_billets_restant')) }}",
+// 		data: { "date": "hello" },
+// 		dataType: "text",
+// 		success: function(data) {
+// 			console.log(data);
+// 			console.log('succès');
+// 		},
+// 		error: function() {
+// 			console.log("error");
+// 		},
+// 		complete: function() {
+// 			console.log("terminée");
+// 		}
+// 	});
+// });
 
 
 </script>
