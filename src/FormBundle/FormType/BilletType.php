@@ -25,7 +25,10 @@ class BilletType extends AbstractType
       ->add('dateNaissance',      DateType::class, array(
                                       'widget'    => 'single_text',
                                       'html5'     => false,
-                                      'attr'      => ['class' => 'date-naissance col-3'],
+                                      'attr'      => [
+                                        'class'   => 'date-naissance col-3',
+                                        'readonly'=> true
+                                      ],
                                       'format'    => 'd/M/y',
                                       'label'     => false))
       ->add('type',               ChoiceType::class, array(

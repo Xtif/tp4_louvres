@@ -24,7 +24,11 @@ img {
 	cursor: pointer;
 }
 
-
+/*******PAGE INFO RESERVATION**********/
+#messageBilletsRestant {
+	display: none;
+	color: green;
+}
 
 /******PAGE INFO BILLETS******/
 #billet-indisponible, #tarif-reduit {
@@ -35,3 +39,8 @@ img {
 	/*display: none;*/
 	color: red;
 }
+
+#messageAjout {
+	color: red;
+}
+

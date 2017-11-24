@@ -71,7 +71,7 @@ class FormController extends Controller
 				$jour = $this->getDoctrine()->getManager()->getRepository('FormBundle:Jour')->findOneBy(array('jour' => $reservation->getJour()->getJour()));
 
 				if ($jour != null) {
-					$reservation->setJour($jour);
+					$reservation->setJour($jour);				
 				} 
 
 				$em = $this->getDoctrine()->getManager();

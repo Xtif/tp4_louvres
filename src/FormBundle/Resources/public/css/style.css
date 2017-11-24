@@ -1,7 +1,11 @@
+/********************GENERAL*****************/
+
+/*Image d'en-tete*/
 img {
 	width: 100%;
 }
 
+/*Fil d'arianne*/
 .fil-arianne-off {
 	color: grey;
 	opacity: 0.5;
@@ -10,3 +14,29 @@ img {
 .breadcrumb-item.active {
 	color: black !important;
 }
+
+/*Bouton valider*/
+.bouton-formulaire {
+	color: white;
+}
+
+.bouton-formulaire:hover {
+	cursor: pointer;
+}
+
+/*******PAGE INFO RESERVATION**********/
+#messageBilletsRestant {
+	display: none;
+	color: green;
+}
+
+/******PAGE INFO BILLETS******/
+#billet-indisponible, #tarif-reduit {
+	color: red;
+}
+
+.tarif-reduit {
+	/*display: none;*/
+	color: red;
+}
+

@@ -44,6 +44,8 @@
 	{{ form_errors(form.jour) }}
 </div>
 
+<p id="messageBilletsRestant">Il reste <span id="nbreBilletsRestant"></span> billets disponibles pour cette date.</p>
+
 <div class="form-group">
 	{# Génération du label #}
 	{{ form_label(form.nom_reservation, "Nom de la réservation") }}
@@ -72,7 +74,7 @@
 </div>
 
 <div class="form-group">
-	{{ form_widget(form.submit, {'attr': {'class': 'bg-info bouton-formulaire'}, 'label': 'Valider'}) }}
+	{{ form_widget(form.submit, {'attr': {'class': 'bg-info bouton-formulaire'}, 'id': 'bouton-valider', 'label': 'Valider'}) }}
 </div>
 
 
@@ -87,48 +89,31 @@
 <script type="text/javascript" src="../../web/bundles/form/js/page_reservation_script.js"></script>
 
 <script>
-$(".datepicker").on('changeDate', function() { // Lorsque la date change
-	// console.log($(this).getDate());
-	var dateSelectionnee = $(this).datepicker("getDate");
 
-	// console.log(ladate);
+function checkBilletsRestant(dateSelectionnee) { // On check dans la BDD le nbre de billets restant
 	$.ajax({
 		type: "GET",
 		url: "{{ (path('check_nombre_billets_restant')) }}",
 		data: { "date": dateSelectionnee },
 		dataType: "json",
 		success: function(data) {
-			console.log(data);
-			console.log('succès');
+			if (data.nbreBilletsRestant > 0) {	
+				$("#nbreBilletsRestant").html(data.nbreBilletsRestant);
+			} else {
+				$("#messageBilletsRestant").css('color', 'red');
+				$("#bouton-valider").attr('disabled', 'disabled').removeClass('bg-info').addClass('bg-secondary');
+				$("#messageBilletsRestant").html("Nous sommes désolé, il n'y a plus de billets pour cette date.");
+			}
+			$("#messageBilletsRestant").css('display', 'block');
 		},
 		error: function() {
-			console.log("error");
+			$("#messageBilletsRestant").html("Une erreur s'est produite, nous ne pouvons pas vous donner le nombre de billets restant pour cette date.");
 		},
-		complete: function() {
-			console.log("terminée");
-		}
+		// complete: function() {
+		// 	console.log("terminée");
+		// }
 	});
-});
-
-// $("body").click(function() {
-// 	$.ajax({
-// 		type: "GET",
-// 		url: "{{ (path('check_nombre_billets_restant')) }}",
-// 		data: { "date": "hello" },
-// 		dataType: "text",
-// 		success: function(data) {
-// 			console.log(data);
-// 			console.log('succès');
-// 		},
-// 		error: function() {
-// 			console.log("error");
-// 		},
-// 		complete: function() {
-// 			console.log("terminée");
-// 		}
-// 	});
-// });
-
+}
 
 </script>
 

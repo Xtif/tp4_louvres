@@ -48,7 +48,7 @@
 	  <tbody>
 	  	{% set numBillet = 1 %}
 	  	{% for billet in reservation.billets %}
-		    <tr>
+		    <tr id="{{ billet.id }}">
 		      <th scope="row">{{ numBillet }}</th>
 		      <td class="text-right">{{ billet.nom }}</td>
 		      <td class="text-right">{{ billet.prenom }}</td>
@@ -61,7 +61,7 @@
 		      	{% else %}{{ billet.prixBillet }} €
 		      	{% endif %}
 		      </td>
-		      <td class="text-right"><a href="#">Supprimer</a></td>
+		      <td class="text-right"><a href="#" onclick="supprimeBillet({{ billet.id }})">Supprimer</a></td>
 		    </tr>
 		    {% set numBillet = numBillet + 1 %}
 	    {% endfor %}
@@ -83,6 +83,23 @@
 </div>
 
 
+<script>
 
+
+
+
+
+
+
+$(document).ready(function() {
+
+
+
+
+}); //End document ready
+
+
+
+</script>
 
 {% endblock %}

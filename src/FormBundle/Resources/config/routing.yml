@@ -23,6 +23,16 @@ check_nombre_billets_restant:
     defaults:
         _controller: FormBundle:Ajax:nbreBilletsRestant
 
+supprime_billet:
+    path:      /supprime_billet
+    defaults:
+        _controller: FormBundle:Ajax:supprimeBillet
+
+id_billet:
+    path:      /id_billet
+    defaults:
+        _controller: FormBundle:Ajax:idBillet
+
 
 clear_session:
     path:      /clear
