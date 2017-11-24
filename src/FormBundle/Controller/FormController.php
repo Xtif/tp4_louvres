@@ -119,14 +119,20 @@ class FormController extends Controller
 		$form = $formBuilder->getForm();
 		
 		if ($request->isMethod('POST')) {
-
+			
+			$em = $this->getDoctrine()->getManager();
+			$billets = $reservation->getBillets();
+			foreach ($billets as $billet) {
+				$em->remove($billet); // On supprime les billets précédemment enregistrés
+			}
+		
 			// On fait le lien Requete <=> Formulaire, la variable $reservation contient les valeurs entrées dans le formulaire
 			$form->handleRequest($request);
 
 			// Si les données sont correctes
 			if ($form->isValid()) { 
 
-				$em = $this->getDoctrine()->getManager();
+
 
 				foreach ($reservation->getBillets() as $billet) {
 					$billet->setReservation($reservation);

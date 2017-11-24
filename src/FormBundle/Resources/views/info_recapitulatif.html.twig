@@ -86,7 +86,27 @@
 <script>
 
 
-
+	// Renvoie le nbre de billets restant pour la date delectionnée depuis la BDD
+	function supprimeBillet(billet_id) { 
+		if (billet_id != null) {
+			$.ajax({
+				type: "GET",
+				url: "{{ (path('supprime_billet')) }}",
+				data: { "billet_id": billet_id },
+				dataType: "json",
+				async: false,
+				success: function(data) {				
+					$("#" + data.billet_id).remove();
+				},
+				error: function() {
+					console.log('Une erreur s\'est produite !');
+				},
+				complete: function() {
+					console.log("terminée");
+				}
+			});
+		}
+	}
 
 
 
