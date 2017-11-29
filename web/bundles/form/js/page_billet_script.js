@@ -1,3 +1,7 @@
+// Affichage du gif de chargement et envoi requête AJAX
+$('.ajax-loading').css('display', 'inline');
+$('.div-ajax-loading').css('display', 'inline');
+
 // Affiche/desaffiche le message du tarif réduit
 function tarifReduitToggle(el) {
 	$(el).parent().parent().children("p").toggle();
@@ -6,7 +10,7 @@ function tarifReduitToggle(el) {
 // Renvoie le nbre de billets restant pour la date delectionnée depuis la BDD
 function supprimeBillet(billet_id) { 
 	if (billet_id != null) {
-		// Affichage du gif de chargement et envoi requête AJAX
+	// Affichage du gif de chargement et envoi requête AJAX
     $('.ajax-loading').css('display', 'inline');
     $('.div-ajax-loading').css('display', 'inline');
 
@@ -36,11 +40,6 @@ $(document).ready(function() {
 	var nbreBilletsRestant = checkBilletsRestant($('#date-visite').html());
 
 	function idBillet(index) { 
-
-		// Affichage du gif de chargement et envoi requête AJAX
-    $('.ajax-loading').css('display', 'inline');
-    $('.div-ajax-loading').css('display', 'inline');
-
 		return $.ajax({
 			type: "GET",
 			url: urlIdBillet,
@@ -76,6 +75,7 @@ $(document).ready(function() {
 	    var $message = $("<p class='tarif-reduit' id='tarif-reduit-" + index + "'>Un justificatif vous sera demandé pour accéder au musée.</p>"); // Création du message pour le tarif réduit
 	  	$(this).find("[class=checkbox]").append($message); // On insere le message apres la checkbox de chaque billet	    
 	  	if (i != 0) { // On ne met pas de lien de suppression sur le premier billet
+	  		console.log(i);
 	  		$idBillet = idBillet(i).responseJSON.result; // On recupere l'id du billet crée
 	  		ajoutLienSuppression($(this), $idBillet); // On ajoute le lien de suppression sur chaque billet 
 	    }
@@ -85,6 +85,9 @@ $(document).ready(function() {
 	initialiseDatepicker(); // Intialisation date picker
 	checkTarifReduit(); // Verifie si le tarif est reduit sur les billets existants
 	checkDemiJournee(); // Desactive le billet journée si plus de 14h	 
+
+	$('.ajax-loading').css('display', 'none');
+    $('.div-ajax-loading').css('display', 'none');
 		  
 	// Ajoute un nouveau formulaire à chaque clic sur le lien d'ajout de billet
 	$('#ajout_billet').click(function(e) {
