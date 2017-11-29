@@ -33,6 +33,15 @@ id_billet:
     defaults:
         _controller: FormBundle:Ajax:idBillet
 
+verification_paiement:
+    path:      /verification_paiement
+    defaults:
+        _controller: FormBundle:Ajax:verificationPaiement
+
+validation_paiement:
+    path:      /validation_paiement
+    defaults:
+        _controller: FormBundle:Form:validationPaiement
 
 clear_session:
     path:      /clear

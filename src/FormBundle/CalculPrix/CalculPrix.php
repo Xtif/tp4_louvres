@@ -1,10 +1,6 @@
 <?php
 
-
 namespace FormBundle\CalculPrix;
-
-use Doctrine\ORM\EntityManager;
-use Doctrine\Common\Collections\Collection;
 
 class CalculPrix 
 {

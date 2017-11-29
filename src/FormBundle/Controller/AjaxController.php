@@ -46,15 +46,27 @@ class AjaxController extends Controller
 
 	public function supprimeBilletAction(Request $request) {
 
+		// Récupération de la session et de l'entity manager
+		$session = $request->getSession();
 		$em = $this->getDoctrine()->getManager();
 
+		// Récupération du billet à supprimer
 		$billet_id = $request->get('billet_id');
-
 		$billet = $em->getRepository('FormBundle:Billet')->findOneBy(array('id' => $billet_id));
+
+		// Récupération de la réservation
+		$reservation = $this->getDoctrine()->getManager()->getRepository('FormBundle:Reservation')->find($session->get('reservation_id'));
+
+		$nouveauPrix = $reservation->getPrixTotal() - $billet->getPrixBillet();
+		$reservation->setPrixTotal($nouveauPrix);
+
 		$em->remove($billet);
 		$em->flush();
 
-		return new JsonResponse(array('billet_id' => $billet_id));
+		return new JsonResponse(array(
+			'billet_id' => $billet_id, 
+			'prix_total' => $nouveauPrix
+		));
 
 	} //End function nbreBilletsRestantAction()
 
@@ -76,6 +88,26 @@ class AjaxController extends Controller
 		return new JsonResponse(array('result' => $result));
 
 	} //End function nbreBilletsRestantAction()
+
+
+
+	public function verificationPaiementAction(Request $request) {
+
+		// Récupération de la session
+		$session = $request->getSession();
+		
+		// Récupération de la réservation
+		$reservation = $this->getDoctrine()->getManager()->getRepository('FormBundle:Reservation')->find($session->get('reservation_id'));
+
+		// Prix total
+		$prix = $reservation->getPrixTotal()*100;
+
+		// Appel du service de paiement
+		$paiement = $this->container->get('form.paiement');
+		$charge = $paiement->paiement($request, $prix);
+
+		return new JsonResponse(array('result' => $charge));
+	}
 
 
 

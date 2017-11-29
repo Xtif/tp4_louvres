@@ -74,6 +74,18 @@ class FormController extends Controller
 					$reservation->setJour($jour);				
 				} 
 
+				$reservation->setNomReservation(strtoupper($reservation->getNomReservation()));
+
+				$codeReservationService = $this->container->get('form.codeReservation');
+				$codeReservation = $codeReservationService->codeReservation();
+
+				$codeExistant = $this->getDoctrine()->getManager()->getRepository('FormBundle:Reservation')->findOneBy(array('code' => $codeReservation));
+				
+				while ($codeExistant) {
+					$codeReservation = $codeReservationService->codeReservation();
+				}				
+
+				$reservation->setCode($codeReservation);
 				$em = $this->getDoctrine()->getManager();
 				$em->persist($reservation);
 				$em->flush();
@@ -91,9 +103,6 @@ class FormController extends Controller
 		}
 
 	} //End function reservationAction()
-
-
-
 
 
 	public function billetAction(Request $request) {
@@ -135,6 +144,7 @@ class FormController extends Controller
 
 
 				foreach ($reservation->getBillets() as $billet) {
+					$billet->setNom(strtoupper($billet->getNom()));
 					$billet->setReservation($reservation);
 					$billet->setJour($reservation->getJour());
 				}
@@ -153,9 +163,6 @@ class FormController extends Controller
 		}
 
 	} //End function billetAction()
-
-
-
 
 
 	public function recapitulatifAction(Request $request) {
@@ -188,39 +195,41 @@ class FormController extends Controller
 
 		return $this->render('FormBundle::info_recapitulatif.html.twig', array('reservation' => $reservation));
 
-	} //End function billetAction()
+	} //End function recapitulatifAction()
 
 
 
+	public function validationPaiementAction(Request $request) {
 
-	public function paiementAction(Request $request) {
-
-		// Récupération de la session
+		//Recuperation de la session
 		$session = $request->getSession();
-		
-		// Récupération de la réservation
+
+		//Recupération du service d'envoie d'email
+		$sendEmail = $this->container->get('form:email');
+
+		//Recupération de la réservation
 		$reservation = $this->getDoctrine()->getManager()->getRepository('FormBundle:Reservation')->find($session->get('reservation_id'));
 
-		return $this->render('FormBundle::info_paiement.html.twig', array('reservation' => $reservation));
+		//Envoie des billets par email
+		$sendEmail->envoyerEmail($reservation);
+    
+    	//création du message flash
+    	$session->getFlashBag()->add('validation', 'Votre paiement a été validé, vous allez recevoir un email contenant vos billets prochainement.');
 
-	} //End function billetAction()
+    	//Redirection vers la page de validation
+		return $this->render('FormBundle::validation.html.twig');
+
+	} //End function validationPaiementAction()
 
 
 
-
-
-
-
-
-
-
-public function clearSessionAction() {
+	public function clearSessionAction() {
 
 		$this->get('session')->clear();
 
 		return $this->redirectToRoute('info_reservation');
 
-} //End function billetAction()
+	} //End function clearSessionAction()
 
 
 

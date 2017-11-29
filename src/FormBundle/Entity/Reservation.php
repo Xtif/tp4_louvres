@@ -61,6 +61,13 @@ class Reservation
      */
     private $billets;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="code", type="string", length=255)
+     */
+    private $code;
+
 
     /**
      * Constructor
@@ -236,5 +243,29 @@ class Reservation
     public function getJour()
     {
         return $this->jour;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     *
+     * @return Reservation
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->code;
     }
 }

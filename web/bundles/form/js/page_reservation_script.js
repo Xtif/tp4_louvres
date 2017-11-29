@@ -49,10 +49,8 @@ $(document).ready(function() {
     checkBilletsRestant(dateSelectionnee);
   });
 
-  //Pour debugage
-  $("body").click(function() {
-  	
-  });
 
+
+  
 }); //End document ready
 

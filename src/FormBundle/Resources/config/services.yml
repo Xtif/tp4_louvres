@@ -5,3 +5,17 @@ services:
 
      form.calculPrix:
          class: FormBundle\CalculPrix\CalculPrix
+
+     form.paiement:
+         class: FormBundle\Paiement\Paiement
+
+     form.email:
+         class: FormBundle\Email\Email
+         arguments: 
+          - "@mailer"
+
+     form.codeReservation:
+         class: FormBundle\CodeReservation\CodeReservation
+
+
+

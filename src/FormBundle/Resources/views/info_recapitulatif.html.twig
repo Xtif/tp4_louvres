@@ -10,8 +10,7 @@
 	  <ol class="breadcrumb rounded-0">
 	    <li class="breadcrumb-item"><a href="{{ path('info_reservation') }}">Réservation</a></li>
 	    <li class="breadcrumb-item"><a href="{{ path('info_billet') }}">Billets</a></li>
-	    <li class="breadcrumb-item active" aria-current="page">Récapitulatif</li>
-	    <li class="breadcrumb-item fil-arianne-off">Paiement</li>
+	    <li class="breadcrumb-item active" aria-current="page">Récapitulatif et paiement</li>
 	    <li class="breadcrumb-item fil-arianne-off">Validation</li>
 	  </ol>
 	</nav>
@@ -49,7 +48,7 @@
 	  	{% set numBillet = 1 %}
 	  	{% for billet in reservation.billets %}
 		    <tr id="{{ billet.id }}">
-		      <th scope="row">{{ numBillet }}</th>
+		      <th scope="row" class="numero-billet">{{ numBillet }}</th>
 		      <td class="text-right">{{ billet.nom }}</td>
 		      <td class="text-right">{{ billet.prenom }}</td>
 		      <td class="text-right">{{ billet.pays }}</td>
@@ -73,16 +72,16 @@
 
 	<div class="clearfix">
 		<h4 class="float-left">Jour de la visite : le {{ reservation.jour.jour|date('d/m/Y') }}</h4>
-		<h4 class="float-right">Prix total : {{ reservation.prixTotal }} €</h4>
+		<h4 class="float-right">Prix total : <span id="prix_total">{{ reservation.prixTotal }}</span> €</h4>
 	</div>
 	<div class="clearfix">
 		<a class="float-left btn btn-secondary m-auto" href="{{ path('info_billet') }}" role="button">Retour à la liste des billets</a>
-		<a class="float-right btn btn-info m-auto" href="{{ path('info_paiement') }}" role="button">Valider et passer au paiement</a>
+		<a class="float-right btn btn-info m-auto" href="#" role="button" id="bouton-payer">Valider et passer au paiement</a>
 	</div>
 
 </div>
 
-
+<script src="https://checkout.stripe.com/checkout.js"></script>
 <script>
 
 
@@ -97,6 +96,7 @@
 				async: false,
 				success: function(data) {				
 					$("#" + data.billet_id).remove();
+					$("#prix_total").html(data.prix_total);
 				},
 				error: function() {
 					console.log('Une erreur s\'est produite !');
@@ -106,9 +106,59 @@
 				}
 			});
 		}
+		var i = 1;
+		$(".numero-billet").each(function() {
+			$(this).html(i);
+			i++;
+		})
 	}
 
 
+// Checkout stripe
+var handler = StripeCheckout.configure({
+	key: 'pk_test_35QqHcMprr2SPQiJjBpatGm6',
+	image: '../../web/images/paris_louvre.png',
+	locale: 'auto',
+	token: function(token) {
+	    // You can access the token ID with `token.id`.
+	    // Get the token ID to your server-side code for use.
+		$.ajax({
+			type: "GET",
+			url: "{{ (path('verification_paiement')) }}",
+			data: { "token_id": token.id },
+			dataType: "json",
+			async: false,
+			success: function(data) {				
+				$(location).attr('href', "{{ path('validation_paiement') }}");
+			},
+			error: function() {
+				console.log('Une erreur s\'est produite !');
+			},
+			complete: function() {
+				console.log("terminée");
+			}
+		}); //End Ajax
+	}, //End token: function()
+	allowRememberMe: false,
+	email: {{ reservation.email }}
+
+}); //End handler function()
+
+
+// Click sur "Payer"
+$('#bouton-payer').click(function(e) {
+	var prix = {{ reservation.prixTotal }} * 100;
+
+	// Open Checkout with further options:
+	handler.open({
+	  name: 'Musée du Louvres',
+	  description: 'Informations de paiement',
+	  zipCode: true,
+	  currency: 'eur',
+	  amount: prix
+	});
+	e.preventDefault();
+}); // End function payer()
 
 
 $(document).ready(function() {
