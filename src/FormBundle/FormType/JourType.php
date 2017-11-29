@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 
+// Creation du champ de formulaire de type Jour
 class JourType extends AbstractType
 {
   public function buildForm(FormBuilderInterface $builder, array $options)

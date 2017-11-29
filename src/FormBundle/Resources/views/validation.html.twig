@@ -3,8 +3,8 @@
 
 {% block body %}
 
-<h3 class="col-8 mt-3 mb-3 text-center text-success font-weight-bold">{{ app.session.flashbag.get('validation')|first }}</h3>
-<p class="col-8 text-center">Vous allez être redirigé vers l'accueil, si ce n'est pas le cas, cliquez <a href="{{ path('clear_session') }}">ici</a>.</p>
+<h3 class="col-8 m-auto mt-3 mb-3 text-center text-success font-weight-bold">{{ app.session.flashbag.get('validation')|first }}</h3>
+<p class="col-8 m-auto text-center">Vous allez être redirigé vers l'accueil, si ce n'est pas le cas, cliquez <a href="{{ path('clear_session') }}">ici</a>.</p>
 
 <script>
 

@@ -68,6 +68,13 @@ class Reservation
      */
     private $code;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="etat", type="boolean")
+     */
+    private $etat;
+
 
     /**
      * Constructor
@@ -76,6 +83,7 @@ class Reservation
     {
         $this->billets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->prixTotal = 0;
+        $this->etat = 0;
     }
 
     /**
@@ -267,5 +275,29 @@ class Reservation
     public function getCode()
     {
         return $this->code;
+    }
+
+    /**
+     * Set etat
+     *
+     * @param integer $etat
+     *
+     * @return Reservation
+     */
+    public function setEtat($etat)
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * Get etat
+     *
+     * @return integer
+     */
+    public function getEtat()
+    {
+        return $this->etat;
     }
 }

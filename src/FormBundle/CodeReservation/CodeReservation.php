@@ -1,23 +1,18 @@
 <?php
 
-
 namespace FormBundle\CodeReservation;
-
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class CodeReservation
 {
   //Création d'un code aléatoire à 5 charactères
   public function codeReservation() {
 
-    $elements = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    $code = str_shuffle($elements);
-    $code = substr($code, 31);
+    $elements = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; 
+    $code = str_shuffle($elements); // Mélange des caractères
+    $code = substr($code, 31); // Garde unqiuement les 5 derniers caractères
 
-    return $code;
+    return $code; // Retur du code
 			  	
-  } // End fonction CalculPrix
+  } // End fonction codeReservation
 
 } // End class

@@ -1,14 +1,13 @@
 <?php
 
-
 namespace FormBundle\Paiement;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+// Execution du paiement
 class Paiement 
 {
-
   public function Paiement(Request $request, $prix) {
 
     $token_id = $request->get('token_id');

@@ -10,7 +10,7 @@ class CalculPrix
   	// Recuperation de reservation
   	$dateReservation = $billet->getJour()->getJour();
 
-  	// Recuperation de la naissance
+  	// Recuperation de la dadte de naissance
 	  $dateNaissance = $billet->getDateNaissance();
 
 	  // Calcul de l'age au moment de la visite
@@ -35,7 +35,7 @@ class CalculPrix
   		$prix = $prix/2;
   	}
 
-  	// Attribution à l'objet
+  	// Retou du prix
   	return $prix;
 			  	
   } // End fonction CalculPrix

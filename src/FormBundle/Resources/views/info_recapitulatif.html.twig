@@ -1,11 +1,8 @@
 {% extends '::layout.html.twig' %}
 
-
-
 {% block body %}
 
 <!--Fil d'arianne-->
-
 	<nav aria-label="breadcrumb" role="navigation">
 	  <ol class="breadcrumb rounded-0">
 	    <li class="breadcrumb-item"><a href="{{ path('info_reservation') }}">Réservation</a></li>
@@ -16,16 +13,16 @@
 	</nav>
 
 
-
-
 <!--Titre-->
 <div class="col-10 m-auto">
 	<h1 class="mt-3">Réservation de billets - Récapitulatif</h1>
 </div>
 
-
 <!--Tableau-->
 <div class="col-10 m-auto">
+	<div class="div-ajax-loading"></div>
+	<img class="ajax-loading" src="{{ asset('../web/images/ajax-loader.gif') }}" alt="Loading" />
+
 	<table class="table">
 
 	  <thead class="bg-light">
@@ -41,8 +38,6 @@
 	      <th class="text-right">Gérer</th>
 	    </tr>
 	  </thead>
-
-
 	  
 	  <tbody>
 	  	{% set numBillet = 1 %}
@@ -60,14 +55,13 @@
 		      	{% else %}{{ billet.prixBillet }} €
 		      	{% endif %}
 		      </td>
-		      <td class="text-right"><a href="#" onclick="supprimeBillet({{ billet.id }})">Supprimer</a></td>
+		      <td class="text-right"><a href="#" onclick="supprimeBillet({{ billet.id }}, event)">Supprimer</a></td>
 		    </tr>
 		    {% set numBillet = numBillet + 1 %}
 	    {% endfor %}
 	  </tbody>
 
 	</table>
-
 
 
 	<div class="clearfix">
@@ -81,95 +75,16 @@
 
 </div>
 
-<script src="https://checkout.stripe.com/checkout.js"></script>
 <script>
-
-
-	// Renvoie le nbre de billets restant pour la date delectionnée depuis la BDD
-	function supprimeBillet(billet_id) { 
-		if (billet_id != null) {
-			$.ajax({
-				type: "GET",
-				url: "{{ (path('supprime_billet')) }}",
-				data: { "billet_id": billet_id },
-				dataType: "json",
-				async: false,
-				success: function(data) {				
-					$("#" + data.billet_id).remove();
-					$("#prix_total").html(data.prix_total);
-				},
-				error: function() {
-					console.log('Une erreur s\'est produite !');
-				},
-				complete: function() {
-					console.log("terminée");
-				}
-			});
-		}
-		var i = 1;
-		$(".numero-billet").each(function() {
-			$(this).html(i);
-			i++;
-		})
-	}
-
-
-// Checkout stripe
-var handler = StripeCheckout.configure({
-	key: 'pk_test_35QqHcMprr2SPQiJjBpatGm6',
-	image: '../../web/images/paris_louvre.png',
-	locale: 'auto',
-	token: function(token) {
-	    // You can access the token ID with `token.id`.
-	    // Get the token ID to your server-side code for use.
-		$.ajax({
-			type: "GET",
-			url: "{{ (path('verification_paiement')) }}",
-			data: { "token_id": token.id },
-			dataType: "json",
-			async: false,
-			success: function(data) {				
-				$(location).attr('href', "{{ path('validation_paiement') }}");
-			},
-			error: function() {
-				console.log('Une erreur s\'est produite !');
-			},
-			complete: function() {
-				console.log("terminée");
-			}
-		}); //End Ajax
-	}, //End token: function()
-	allowRememberMe: false,
-	email: {{ reservation.email }}
-
-}); //End handler function()
-
-
-// Click sur "Payer"
-$('#bouton-payer').click(function(e) {
-	var prix = {{ reservation.prixTotal }} * 100;
-
-	// Open Checkout with further options:
-	handler.open({
-	  name: 'Musée du Louvres',
-	  description: 'Informations de paiement',
-	  zipCode: true,
-	  currency: 'eur',
-	  amount: prix
-	});
-	e.preventDefault();
-}); // End function payer()
-
-
-$(document).ready(function() {
-
-
-
-
-}); //End document ready
-
-
-
+	var urlSupprimerBillet = "{{ (path('supprime_billet')) }}";
+	var utlVerificationPaiement = "{{ (path('verification_paiement')) }}";
+	var urlValidationPaiement = "{{ path('validation_paiement') }}";
+	var reservationEmail = "{{ reservation.email }}";
+	var reservationPrixTotal = {{ reservation.prixTotal }};
 </script>
+
+<script type="text/javascript" src="{{ asset('../web/bundles/form/js/page_recapitulatif_script.js') }}"></script>
+
+<script src="https://checkout.stripe.com/checkout.js"></script>
 
 {% endblock %}

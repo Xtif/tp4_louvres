@@ -12,7 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
-
+// Creation du champ de formulaire de type Billet
 class BilletType extends AbstractType
 {
 

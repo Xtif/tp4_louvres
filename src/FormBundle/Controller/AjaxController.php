@@ -17,33 +17,36 @@ use FormBundle\Entity\Reservation;
 class AjaxController extends Controller
 {
 
+	// Renvoie le nombre de billets restant
 	public function nbreBilletsRestantAction(Request $request) {
 
-		$dateChoisie = $request->get('date');
-		$dateChoisieString = (string) $dateChoisie;
+		$dateChoisie = $request->get('date'); // Recuperation de la date de visite
+		$dateChoisieString = (string) $dateChoisie; // Transformation en string
+		$dateChoisieExplode = explode("/", $dateChoisie); // Decoupage de la date
 
-		$dateChoisieExplode = explode("/", $dateChoisie);
-
-		$jour = $dateChoisieExplode[0];
+		// recuperation du jour, mois et année
+		$jour = $dateChoisieExplode[0]; 
 		$mois = $dateChoisieExplode[1];
 		$annee = $dateChoisieExplode[2];
 
+		// création du Datetime au format
 		$dateTimeChoisie = new \Datetime($annee ."-" . $mois . "-" . $jour);
 
+		// Recuperation du jour de visite
 		$jour = $this->getDoctrine()->getManager()->getRepository('FormBundle:Jour')->findOneBy(array('jour' => $dateTimeChoisie));
-		if ($jour) {
-			$nbreBilletsVendus = $jour->getBillets()->count();
-			$nbreBilletsRestant = 1000 - $nbreBilletsVendus;
-		} else {
-			$nbreBilletsRestant = 1000;
+
+		if ($jour) { // Si le jour est présent dans la BDD
+			$nbreBilletsVendus = $jour->getBillets()->count(); 
+			$nbreBilletsRestant = 1000 - $nbreBilletsVendus; 
+		} else { // Si ce jour n'a jamais été reservé
+			$nbreBilletsRestant = 1000; 
 		}
 
 		return new JsonResponse(array('nbreBilletsRestant' => $nbreBilletsRestant));
-
 	} //End function nbreBilletsRestantAction()
 
 
-
+	// Supprime un billet de la BDD
 	public function supprimeBilletAction(Request $request) {
 
 		// Récupération de la session et de l'entity manager
@@ -57,40 +60,44 @@ class AjaxController extends Controller
 		// Récupération de la réservation
 		$reservation = $this->getDoctrine()->getManager()->getRepository('FormBundle:Reservation')->find($session->get('reservation_id'));
 
+		// Calcul du nouveau prix total
 		$nouveauPrix = $reservation->getPrixTotal() - $billet->getPrixBillet();
 		$reservation->setPrixTotal($nouveauPrix);
 
+		// Suppression du billet
 		$em->remove($billet);
+
 		$em->flush();
 
 		return new JsonResponse(array(
 			'billet_id' => $billet_id, 
 			'prix_total' => $nouveauPrix
 		));
-
 	} //End function nbreBilletsRestantAction()
 
 
-
-
+	// Renvoie l'id d'un billet à partir de son index (son ordre dans la BDD)
 	public function idBilletAction(Request $request) {
 
+		// Recupeartion de l'entity manager
 		$em = $this->getDoctrine()->getManager();
 
+		// Recupération de l'index du billet et del'id de la reservation
 		$index_billet = $request->get('index');
 		$reservation_id = $request->get('reservation_id');
 
-
+		// Recupération de la reservation et des billets associés
 		$reservation = $em->getRepository('FormBundle:Reservation')->findOneBy(array('id' => $reservation_id));
 		$billets = $reservation->getBillets();
+
+		// récupération de l'id du billet
 		$result = $billets[$index_billet]->getId();
 
 		return new JsonResponse(array('result' => $result));
-
 	} //End function nbreBilletsRestantAction()
 
 
-
+	// Execution et verification du paiement
 	public function verificationPaiementAction(Request $request) {
 
 		// Récupération de la session
@@ -99,17 +106,17 @@ class AjaxController extends Controller
 		// Récupération de la réservation
 		$reservation = $this->getDoctrine()->getManager()->getRepository('FormBundle:Reservation')->find($session->get('reservation_id'));
 
-		// Prix total
-		$prix = $reservation->getPrixTotal()*100;
+		// Mise au format décimal pour le paiement stripe
+		$prix = $reservation->getPrixTotal()*100; 
 
 		// Appel du service de paiement
 		$paiement = $this->container->get('form.paiement');
+
+		// Execution du paiement
 		$charge = $paiement->paiement($request, $prix);
 
 		return new JsonResponse(array('result' => $charge));
-	}
-
-
+	} // End function verificationPaiementAction()
 
 
 } //End class FormController

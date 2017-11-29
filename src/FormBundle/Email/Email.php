@@ -3,8 +3,8 @@
 namespace FormBundle\Email;
 
 use FormBundle\Entity\Reservation;
-use FormBundle\Entity\Billet;
 
+// Service d'envoie d'un email
 class Email
 {
   /**
