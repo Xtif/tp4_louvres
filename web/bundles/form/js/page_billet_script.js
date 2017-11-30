@@ -75,7 +75,6 @@ $(document).ready(function() {
 	    var $message = $("<p class='tarif-reduit' id='tarif-reduit-" + index + "'>Un justificatif vous sera demandé pour accéder au musée.</p>"); // Création du message pour le tarif réduit
 	  	$(this).find("[class=checkbox]").append($message); // On insere le message apres la checkbox de chaque billet	    
 	  	if (i != 0) { // On ne met pas de lien de suppression sur le premier billet
-	  		console.log(i);
 	  		$idBillet = idBillet(i).responseJSON.result; // On recupere l'id du billet crée
 	  		ajoutLienSuppression($(this), $idBillet); // On ajoute le lien de suppression sur chaque billet 
 	    }

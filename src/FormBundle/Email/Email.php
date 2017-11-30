@@ -12,9 +12,10 @@ class Email
    */
   private $mailer;
 
-  public function __construct(\Swift_Mailer $mailer)
+  public function __construct(\Swift_Mailer $mailer, $templating)
   {
     $this->mailer = $mailer;
+    $this->templating = $templating;
   }
 
   public function envoyerEmail(\FormBundle\Entity\Reservation $reservation)
@@ -24,7 +25,7 @@ class Email
       ->setFrom('reservation@museeLouvres.com')
       ->setTo($reservation->getEmail())
       ->setBody(
-        $this->renderView('\FormBundle\Resources\views\email.html.twig', array('reservation' => $reservation)), 'text/html')
+        $this->templating->render('FormBundle::email.html.twig', array('reservation' => $reservation)), 'text/html')
     ;
 
     $this->mailer->send($message);

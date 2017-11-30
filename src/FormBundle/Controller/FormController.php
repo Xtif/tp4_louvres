@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Intl\Intl;
 
 //Entité
 use FormBundle\Entity\Billet;
@@ -204,6 +205,11 @@ class FormController extends Controller
 		
 		$em->flush();
 
+		foreach ($billets_reservation as $billet) { // Pour chaque billet
+			// Récuperation du nom complet à partir du code pays
+      		$billet->setPays(Intl::getRegionBundle()->getCountryName($billet->getPays(), 'fr'));
+		}
+
 		// On crée la vue
 		return $this->render('FormBundle::info_recapitulatif.html.twig', array('reservation' => $reservation));
 	} //End function recapitulatifAction()
@@ -219,13 +225,13 @@ class FormController extends Controller
 		$em = $this->getDoctrine()->getManager();
 
 		//Recupération du service d'envoie d'email
-		// $sendEmail = $this->container->get('form.email');
+		$sendEmail = $this->container->get('form.email');
 
 		//Recupération de la réservation
 		$reservation = $this->getDoctrine()->getManager()->getRepository('FormBundle:Reservation')->find($session->get('reservation_id'));
 
 		//Envoie des billets par email
-		// $sendEmail->envoyerEmail($reservation);
+		$sendEmail->envoyerEmail($reservation);
 
 		// Mise à l'état de payer de la reservation
 		$reservation->setEtat(1);

@@ -67,17 +67,21 @@ $(document).ready(function() {
 
 	// Click sur "Payer"
 	$('#bouton-payer').click(function(e) {
-		var prix = reservationPrixTotal * 100;
+		if (reservationPrixTotal > 0) { // Si une somme est à payer
+			var prix = reservationPrixTotal * 100;
 
-		// Open Checkout with further options:
-		handler.open({
-		  name: 'Musée du Louvres',
-		  description: 'Informations de paiement',
-		  zipCode: true,
-		  currency: 'eur',
-		  amount: prix
-		});
-		e.preventDefault();
+			// Open Checkout with further options:
+			handler.open({
+			  name: 'Musée du Louvres',
+			  description: 'Informations de paiement',
+			  zipCode: true,
+			  currency: 'eur',
+			  amount: prix
+			});
+			e.preventDefault();
+		} else { // Si l'ensemble est gratuit
+			$(location).attr('href', urlValidationPaiement);
+		}
 	}); // End function payer()
 
 

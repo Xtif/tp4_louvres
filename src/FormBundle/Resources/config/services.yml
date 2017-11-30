@@ -13,6 +13,7 @@ services:
          class: FormBundle\Email\Email
          arguments: 
           - "@mailer"
+          - "@templating"
 
      form.codeReservation:
          class: FormBundle\CodeReservation\CodeReservation
