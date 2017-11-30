@@ -21,8 +21,8 @@ function supprimeBillet(billet_id, event) {
 					$(this).html(i);
 					i++;
 				});
-        $('.ajax-loading').css('display', 'none');
-        $('.div-ajax-loading').css('display', 'none');
+		    $('.ajax-loading').css('display', 'none');
+		    $('.div-ajax-loading').css('display', 'none');
 			},
 			error: function() {
 				console.log('Une erreur s\'est produite !');
@@ -39,6 +39,7 @@ $(document).ready(function() {
 
 	// Checkout stripe
 	var handler = StripeCheckout.configure({
+		// Affichage du gif de chargement et envoi requête AJAX
 		key: 'pk_test_35QqHcMprr2SPQiJjBpatGm6',
 		image: '../../web/images/paris_louvre.png',
 		locale: 'auto',
@@ -67,9 +68,9 @@ $(document).ready(function() {
 
 	// Click sur "Payer"
 	$('#bouton-payer').click(function(e) {
+
 		if (reservationPrixTotal > 0) { // Si une somme est à payer
 			var prix = reservationPrixTotal * 100;
-
 			// Open Checkout with further options:
 			handler.open({
 			  name: 'Musée du Louvres',

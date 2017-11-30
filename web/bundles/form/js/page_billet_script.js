@@ -108,7 +108,7 @@ $(document).ready(function() {
 		var heure = present.getHours(); //Recuperation heure actuelle
 
 		if (dateVisite == presentFormat) {
-			if (heure > 14) { 
+			if (heure > 13) { 
 				$("[id$=_type_1]")[0].disabled = true;
 				$("[id$=_type_1]").parent().css("color", "grey").css("opacity", 0.5);
 				$("#billet-indisponible").attr("hidden", false);
