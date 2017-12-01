@@ -57,6 +57,9 @@
 	var reservationId = "{{ reservation.id }}";
 </script>
 
-<script type="text/javascript" src="{{ asset('../web/bundles/form/js/page_billet_script.js') }}"></script>
+<!--Custom script-->
+{% javascripts 'bundles/form/js/page_billet_script.js' %}
+  <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}	
 
 {% endblock %}

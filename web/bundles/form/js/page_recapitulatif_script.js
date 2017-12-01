@@ -41,7 +41,6 @@ $(document).ready(function() {
 	var handler = StripeCheckout.configure({
 		// Affichage du gif de chargement et envoi requête AJAX
 		key: 'pk_test_35QqHcMprr2SPQiJjBpatGm6',
-		image: '../../web/images/paris_louvre.png',
 		locale: 'auto',
 		token: function(token) {
 			$.ajax({
@@ -52,6 +51,8 @@ $(document).ready(function() {
 				async: true,
 				success: function(data) {				
 					$(location).attr('href', urlValidationPaiement);
+					$('.ajax-loading').css('display', 'none');
+		  		$('.div-ajax-loading').css('display', 'none');
 				},
 				error: function() {
 					console.log('Une erreur s\'est produite !');
@@ -68,7 +69,9 @@ $(document).ready(function() {
 
 	// Click sur "Payer"
 	$('#bouton-payer').click(function(e) {
-
+		// Affichage du gif de chargement et envoi requête AJAX
+    $('.ajax-loading').css('display', 'inline');
+    $('.div-ajax-loading').css('display', 'inline');
 		if (reservationPrixTotal > 0) { // Si une somme est à payer
 			var prix = reservationPrixTotal * 100;
 			// Open Checkout with further options:
@@ -82,6 +85,8 @@ $(document).ready(function() {
 			e.preventDefault();
 		} else { // Si l'ensemble est gratuit
 			$(location).attr('href', urlValidationPaiement);
+			$('.ajax-loading').css('display', 'none');
+		  $('.div-ajax-loading').css('display', 'none');
 		}
 	}); // End function payer()
 

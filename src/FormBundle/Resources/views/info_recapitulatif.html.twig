@@ -83,7 +83,10 @@
 	var reservationPrixTotal = {{ reservation.prixTotal }};
 </script>
 
-<script type="text/javascript" src="{{ asset('../web/bundles/form/js/page_recapitulatif_script.js') }}"></script>
+<!--Custom script-->
+{% javascripts 'bundles/form/js/page_recapitulatif_script.js' %}
+  <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}	
 
 <script src="https://checkout.stripe.com/checkout.js"></script>
 
