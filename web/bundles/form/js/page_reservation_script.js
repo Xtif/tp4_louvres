@@ -50,12 +50,9 @@ $(document).ready(function() {
   });
 
   function checkBilletsRestant(dateSelectionnee) { // On check dans la BDD le nbre de billets restant
-    // Affichage du gif de chargement et envoi requête AJAX
-    $('.ajax-loading').css('display', 'inline');
-    $('.div-ajax-loading').css('display', 'inline');
     $.ajax({
       type: "GET",
-      url: urlCheckBilletRestant,
+      url: "{{ (path('check_nombre_billets_restant')) }}",
       data: { "date": dateSelectionnee },
       dataType: "json",
       success: function(data) {
@@ -66,8 +63,6 @@ $(document).ready(function() {
           $("#messageBilletsRestant").html("Nous sommes désolé, il n'y a plus de billets pour cette date.");
         }
         $("#messageBilletsRestant").css('display', 'block');
-        $('.ajax-loading').css('display', 'none');
-        $('.div-ajax-loading').css('display', 'none');
       },
       error: function() {
         $("#messageBilletsRestant").html("Une erreur s'est produite, nous ne pouvons pas vous donner le nombre de billets restant pour cette date.");
