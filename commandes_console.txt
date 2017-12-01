@@ -1,5 +1,14 @@
+> Mettre à jour la BDD avec les entité :
 php bin/console doctrine:schema:update --force
-php bin/console doctrine:generate:entities FormBundle:
+--------------------------------------------------------------
+> Créer les getters et setters pour une ou toutes les entités :
+php bin/console doctrine:generate:entities NomBundle:NomEntité
 php bin/console doctrine:generate:entity
-php bin/console assets:install --symlink
+--------------------------------------------------------------
+> Clear le cache :
 php bin/console cache:clear
+php bin/console cache:clear --env=prod
+--------------------------------------------------------------
+> Lien auto des assets (l'un ou l'autre, le 2eme marche) :
+php bin/console assets:install --symlink web
+php bin/console assetic:dump --watch
