@@ -48,4 +48,8 @@ clear_session:
     defaults:
         _controller: FormBundle:Form:clearSession
 
+routine:
+    path:      /routine
+    defaults:
+        _controller: FormBundle:Form:routine
 

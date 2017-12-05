@@ -42,7 +42,10 @@ $(document).ready(function() {
 		// Affichage du gif de chargement et envoi requête AJAX
 		key: 'pk_test_35QqHcMprr2SPQiJjBpatGm6',
 		locale: 'auto',
-		token: function(token) {
+		token: function(token) {	
+			// Affichage du gif de chargement et envoi requête AJAX
+	    $('.ajax-loading').css('display', 'inline');
+	    $('.div-ajax-loading').css('display', 'inline');
 			$.ajax({
 				type: "GET",
 				url: utlVerificationPaiement,
@@ -55,7 +58,9 @@ $(document).ready(function() {
 		  		$('.div-ajax-loading').css('display', 'none');
 				},
 				error: function() {
-					console.log('Une erreur s\'est produite !');
+					$('#titre-recapitulatif').html('Une erreur s\'est produite, aucun paiement n\'a été effectué, veuillez recommencer.');
+					$('.ajax-loading').css('display', 'none');
+		  		$('.div-ajax-loading').css('display', 'none');
 				},
 				// complete: function() {
 				// 	console.log("terminée");
@@ -69,9 +74,6 @@ $(document).ready(function() {
 
 	// Click sur "Payer"
 	$('#bouton-payer').click(function(e) {
-		// Affichage du gif de chargement et envoi requête AJAX
-    $('.ajax-loading').css('display', 'inline');
-    $('.div-ajax-loading').css('display', 'inline');
 		if (reservationPrixTotal > 0) { // Si une somme est à payer
 			var prix = reservationPrixTotal * 100;
 			// Open Checkout with further options:

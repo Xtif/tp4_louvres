@@ -51,7 +51,7 @@ class FormController extends Controller
 			->add('nom_reservation',				TextType::class)
 			->add('prenom_reservation',				TextType::class)
 			->add('email',							EmailType::class)
-			->add('submit',							SubmitType::class);
+			->add('submit',							SubmitType::class, array('attr' => ['value' => 'Valider']));
 
 		// On génère le formulaire
 		$form = $formBuilder->getForm();
@@ -239,10 +239,10 @@ class FormController extends Controller
 		$em->persist($reservation);
 		$em->flush();
     
-    	//création du message flash
-    	$session->getFlashBag()->add('validation', 'Votre paiement a été validé, vous allez recevoir un email contenant vos billets prochainement.');
+    //création du message flash
+    $session->getFlashBag()->add('validation', 'Votre paiement a été validé, vous allez recevoir un email contenant vos billets prochainement.');
 
-    	//Redirection vers la page de validation
+    //Redirection vers la page de validation
 		return $this->render('FormBundle::validation.html.twig');
 	} //End function validationPaiementAction()
 
@@ -254,6 +254,29 @@ class FormController extends Controller
 
 		return $this->redirectToRoute('info_reservation');
 	} //End function clearSessionAction()
+
+
+	// Fonction de suppression des reservations non payé tous le lundi à 5h du matin 
+	public function routineAction() {
+
+		// Recuperation de l'entite manager
+		$em = $this->getDoctrine()->getManager();
+
+		//Recupération des reservation en état non validé
+		$reservations = $this->getDoctrine()->getManager()->getRepository('FormBundle:Reservation')->findBy(array('etat' => 0));
+
+		foreach ($reservations as $reservation) {
+			$billets = $reservation->getBillets();
+			foreach ($billets as $billet) {
+				$em->remove($billet);
+			}
+			$em->remove($reservation);
+		}
+		
+		$em->flush();
+
+		return new Response("OK");
+	} //End function routineAction()
 
 
 

@@ -35,7 +35,7 @@ class CalculPrix
   		$prix = $prix/2;
   	}
 
-  	// Retou du prix
+  	// Retour du prix
   	return $prix;
 			  	
   } // End fonction CalculPrix

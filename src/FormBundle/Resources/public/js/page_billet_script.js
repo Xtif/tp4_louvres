@@ -134,6 +134,7 @@ $(document).ready(function() {
 			autoclose: true,
 			language: 'fr',
 			todayHighlight: false,
+			endDate: 'today'
 		 });
 	} // Fin initialiseDatepicker()
 
