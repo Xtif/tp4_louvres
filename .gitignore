@@ -1,7 +1,9 @@
 /.web-server-pid
 /app/config/parameters.yml
 /build/
-/phpunit.xml
+/P4_Note de cadrage.docx
+/Soutenance_P4.pptx
+/commandes_console.txt
 /var/*
 !
 /var/cache
@@ -23,6 +25,3 @@ var/SymfonyRequirements.php
 /vendor/
 
 
-P4_Note de cadrage.docx
-Soutenance_P4.pptx
-commandes_console.txt
