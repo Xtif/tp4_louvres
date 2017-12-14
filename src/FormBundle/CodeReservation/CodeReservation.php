@@ -11,7 +11,7 @@ class CodeReservation
     $code = str_shuffle($elements); // Mélange des caractères
     $code = substr($code, 31); // Garde unqiuement les 5 derniers caractères
 
-    return $code; // Retur du code
+    return $code; // Retour du code
 			  	
   } // End fonction codeReservation
 

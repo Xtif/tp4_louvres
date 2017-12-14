@@ -3,6 +3,7 @@
 namespace FormBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Jour
@@ -25,6 +26,8 @@ class Jour
      * @var \DateTime
      *
      * @ORM\Column(name="jour", type="date", unique=true)
+     * @Assert\NotBlank(message = "Le jour est obligatoire")
+     * @Assert\DateTime(message = "Veuillez entrer une date valide")
      */
     private $jour;
 

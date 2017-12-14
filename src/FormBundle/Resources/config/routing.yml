@@ -13,11 +13,6 @@ info_recapitulatif:
     defaults:
         _controller: FormBundle:Form:recapitulatif
 
-info_paiement:
-    path:      /paiement
-    defaults:
-        _controller: FormBundle:Form:paiement
-
 check_nombre_billets_restant:
     path:      /checkNbreBillet
     defaults:

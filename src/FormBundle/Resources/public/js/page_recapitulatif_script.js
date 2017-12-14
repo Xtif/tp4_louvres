@@ -15,7 +15,8 @@ function supprimeBillet(billet_id, event) {
 			async: true,
 			success: function(data) {				
 				$("#" + data.billet_id).remove();
-				$("#prix_total").html(data.prix_total);
+				reservationPrixTotal = data.prix_total;
+				$("#prix_total").html(reservationPrixTotal);
 				var i = 1;
 				$(".numero-billet").each(function() {
 					$(this).html(i);
@@ -48,16 +49,17 @@ $(document).ready(function() {
 	    $('.div-ajax-loading').css('display', 'inline');
 			$.ajax({
 				type: "GET",
-				url: utlVerificationPaiement,
+				url: urlVerificationPaiement,
 				data: { "token_id": token.id },
 				dataType: "json",
 				async: true,
-				success: function(data) {				
+				success: function(data) {
+					$('#titre-recapitulatif').html('');
 					$(location).attr('href', urlValidationPaiement);
 					$('.ajax-loading').css('display', 'none');
 		  		$('.div-ajax-loading').css('display', 'none');
 				},
-				error: function() {
+				error: function() {	
 					$('#titre-recapitulatif').html('Une erreur s\'est produite, aucun paiement n\'a été effectué, veuillez recommencer.');
 					$('.ajax-loading').css('display', 'none');
 		  		$('.div-ajax-loading').css('display', 'none');

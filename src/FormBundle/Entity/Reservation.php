@@ -3,6 +3,7 @@
 namespace FormBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Reservation
@@ -24,6 +25,8 @@ class Reservation
     /**
      * @ORM\ManyToOne(targetEntity="FormBundle\Entity\Jour", inversedBy="reservations", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(message = "Le jour est obligatoire")
+     * @Assert\Type("object", message = "Veuillez entrer une date valide")
      */
     private $jour;
 
@@ -31,6 +34,9 @@ class Reservation
      * @var string
      *
      * @ORM\Column(name="nom_reservation", type="string", length=255)
+     * @Assert\NotBlank(message = "Le nom est obligatoire")
+     * @Assert\Type("string", message = "Votre nom ne peut contenir que des caractères alphanumériques")
+     * @Assert\Length(max=255, maxMessage = "Votre nom doit comporter au maximum 255 caractères")
      */
     private $nom_reservation;    
 
@@ -38,6 +44,9 @@ class Reservation
      * @var string
      *
      * @ORM\Column(name="prenom_reservation", type="string", length=255)
+     * @Assert\NotBlank(message = "Le prénom est obligatoire")
+     * @Assert\Type("string", message = "Votre prénom ne peut contenir que des caractères alphanumériques")
+     * @Assert\Length(max=255, maxMessage = "Votre nom doit comporter au maximum 255 caractères")
      */
     private $prenom_reservation;
 
@@ -45,6 +54,9 @@ class Reservation
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255)
+     * @Assert\NotBlank(message = "L'email est obligatoire")
+     * @Assert\Email(message = "Veuillez entrer un email valide", checkMX = true)
+     * @Assert\Length(max=255, maxMessage = "Votre nom doit comporter au maximum 255 caractères")
      */
     private $email;
 

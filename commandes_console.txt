@@ -13,3 +13,6 @@ php bin/console cache:clear --env=prod
 php bin/console assets:install --symlink web
 php bin/console assetic:dump --watch
 php bin/console assets:install
+--------------------------------------------------------------
+> Exporter en dur les assets :
+php app/console assetic:dump --env=prod

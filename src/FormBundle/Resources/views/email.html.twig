@@ -9,23 +9,23 @@
 
 <p>
 	Numero de reservation : <strong>{{ reservation.code }}</strong>
-	</br>
+	<br/>
 	Jour de la visite : le <strong>{{ reservation.jour.jour|date('d/m/Y') }}</strong>
-	</br>
+	<br/>
 	Prix total : <strong>{{ reservation.prixTotal }}</strong> €
-	</br>
-
+	<br/>
+	<br/>
 	{% set numBillet = 1 %}
 	{% for billet in reservation.billets %}
 		Billet <strong>n°{{ numBillet }}</strong> - <strong>{{ billet.nom }} {{ billet.prenom }}</strong>
 		{% if billet.tarifReduit == 1 %}
 			- Attention : un justificatif de tarif réduit vous sera demandé pour ce billet
 		{% endif %}
-		</br>
+		<br/>
 		{% set numBillet = numBillet + 1 %}
 	{% endfor %}
 </p>
 
 <p>A très bientôt au musée !</p>
 <p><strong>L'équipe du musée du Louvres</strong></p>
-<img src="{{ absolute_url(asset('web/images/paris_louvre.png')) }}">
+<img src="{{ absolute_url(asset('web/images/paris_louvre.jpg')) }}">

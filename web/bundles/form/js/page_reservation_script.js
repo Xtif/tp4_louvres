@@ -12,8 +12,11 @@ $(document).ready(function() {
       dataType: "json",
       success: function(data) {
         if (data.nbreBilletsRestant > 0) {  
-          $("#nbreBilletsRestant").html(data.nbreBilletsRestant);
+          $("#bouton-valider").removeAttr('disabled').removeClass('bg-secondary').addClass('bg-info');
+          $("#messageBilletsRestant").css('color', 'green');
+          $("#messageBilletsRestant").html("Il reste " + data.nbreBilletsRestant + " billet(s) disponible(s) pour cette date.");
         } else {
+          $("#bouton-valider").attr('disabled', 'disabled').removeClass('bg-info').addClass('bg-secondary');
           $("#messageBilletsRestant").css('color', 'red');
           $("#messageBilletsRestant").html("Nous sommes désolé, il n'y a plus de billets pour cette date.");
         }

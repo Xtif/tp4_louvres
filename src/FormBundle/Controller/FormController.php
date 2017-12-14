@@ -27,6 +27,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
+
 class FormController extends Controller
 {
 
@@ -47,14 +48,15 @@ class FormController extends Controller
 
 		// Création des champs du formulaire
 		$formBuilder
-			->add('jour',							JourType::class)
-			->add('nom_reservation',				TextType::class)
-			->add('prenom_reservation',				TextType::class)
+			->add('jour',								JourType::class)
+			->add('nom_reservation',		TextType::class)
+			->add('prenom_reservation',	TextType::class)
 			->add('email',							EmailType::class)
 			->add('submit',							SubmitType::class, array('attr' => ['value' => 'Valider']));
 
 		// On génère le formulaire
 		$form = $formBuilder->getForm();
+
 
 		// Si le formulaire est soumis
 		if ($request->isMethod('POST')) {
@@ -108,7 +110,7 @@ class FormController extends Controller
 		} else { // Si on arrive sur la page pour la première fois
 			return $this->render('FormBundle::info_reservation.html.twig', array('form' => $form->createView()));
 		}
-	} //End function reservationAction()
+	} // End function reservationAction()
 
 
 	// Fonction de gestion de la page des billets
@@ -116,6 +118,10 @@ class FormController extends Controller
 
 		// Récupération de la session
 		$session = $request->getSession();
+
+		if ($session->get('reservation_id') == null) {
+			return $this->redirectToRoute('info_reservation');
+		}
 
 		// Récupération de la réservation
 		$reservation = $this->getDoctrine()->getManager()->getRepository('FormBundle:Reservation')->find($session->get('reservation_id'));
@@ -133,7 +139,6 @@ class FormController extends Controller
 
 		// On génère le formulaire
 		$form = $formBuilder->getForm();
-
 		
 		if ($request->isMethod('POST')) { // Si le formulaire est soumis
 			
@@ -178,11 +183,15 @@ class FormController extends Controller
 	// Fonction de gestion de la page de recapitulatif
 	public function recapitulatifAction(Request $request) {
 
-		// Recuperation de l'entite manager
-		$em = $this->getDoctrine()->getManager();
-
 		// Récupération de la session
 		$session = $request->getSession();
+
+		if ($session->get('reservation_id') == null) {
+			return $this->redirectToRoute('info_reservation');
+		}
+
+		// Recuperation de l'entite manager
+		$em = $this->getDoctrine()->getManager();
 
 		// Récupération de la réservation et des billets
 		$reservation = $this->getDoctrine()->getManager()->getRepository('FormBundle:Reservation')->find($session->get('reservation_id'));
@@ -220,6 +229,13 @@ class FormController extends Controller
 
 		//Recuperation de la session
 		$session = $request->getSession();
+		
+		if ($session->get('reservation_id') == null) {
+			return $this->redirectToRoute('info_reservation');
+		}
+
+		//Recuperation de la session
+		$session = $request->getSession();
 
 		// Recuperation de l'entite manager
 		$em = $this->getDoctrine()->getManager();
@@ -235,11 +251,10 @@ class FormController extends Controller
 
 		// Mise à l'état de payer de la reservation
 		$reservation->setEtat(1);
-		
 		$em->persist($reservation);
 		$em->flush();
-    
-    //création du message flash
+		    
+    // Création du message flash
     $session->getFlashBag()->add('validation', 'Votre paiement a été validé, vous allez recevoir un email contenant vos billets prochainement.');
 
     //Redirection vers la page de validation
@@ -259,23 +274,30 @@ class FormController extends Controller
 	// Fonction de suppression des reservations non payé tous le lundi à 5h du matin 
 	public function routineAction() {
 
-		// Recuperation de l'entite manager
-		$em = $this->getDoctrine()->getManager();
-
-		//Recupération des reservation en état non validé
-		$reservations = $this->getDoctrine()->getManager()->getRepository('FormBundle:Reservation')->findBy(array('etat' => 0));
-
-		foreach ($reservations as $reservation) {
-			$billets = $reservation->getBillets();
-			foreach ($billets as $billet) {
-				$em->remove($billet);
-			}
-			$em->remove($reservation);
-		}
+		$heure = getdate();
 		
-		$em->flush();
+		if ($heure['hours'] <= 6 && $heure['hours'] >= 4) { 
+			return $this->redirectToRoute('info_reservation');
+		} else { // Sinon 
 
-		return new Response("OK");
+			// Recuperation de l'entite manager
+			$em = $this->getDoctrine()->getManager();
+
+			//Recupération des reservation en état non validé
+			$reservations = $this->getDoctrine()->getManager()->getRepository('FormBundle:Reservation')->findBy(array('etat' => 0));
+
+			foreach ($reservations as $reservation) {
+				$billets = $reservation->getBillets();
+				foreach ($billets as $billet) {
+					$em->remove($billet);
+				}
+				$em->remove($reservation);
+			}
+			
+			$em->flush();
+
+			return $this->redirectToRoute('info_reservation');
+		}
 	} //End function routineAction()
 
 

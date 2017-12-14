@@ -23,7 +23,7 @@ function supprimeBillet(billet_id) {
 			success: function(data) {				
 				$("#" + data.billet_id).remove();
 				$('.ajax-loading').css('display', 'none');
-    			$('.div-ajax-loading').css('display', 'none');
+    		$('.div-ajax-loading').css('display', 'none');
 			},
 			error: function() {
 				console.log('Une erreur s\'est produite dans la fonction supprimeBillet !');
@@ -48,8 +48,8 @@ $(document).ready(function() {
 			async: false,
 			success: function(data) {				
 				$('.ajax-loading').css('display', 'none');
-	    		$('.div-ajax-loading').css('display', 'none');
-	    		return data.result;
+	    	$('.div-ajax-loading').css('display', 'none');
+	    	return data.result;
 			},
 			error: function() {
 				console.log('Une erreur s\'est produite dans la fonction idbillet!');

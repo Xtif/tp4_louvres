@@ -8,6 +8,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 
+use Symfony\Component\Validator\Constraints\NotBlank;
+
 // Creation du champ de formulaire de type Jour
 class JourType extends AbstractType
 {
@@ -21,7 +23,9 @@ class JourType extends AbstractType
         'readonly' => true
       ],
       'format' => 'd/M/y',
-      'label'  => false
+      'label'  => false,
+      'invalid_message' => 'Veuillez entrer une date valide',
+      'constraints' => new NotBlank(array('message' => 'Le jour est obligatoire'))
     ));
   }
 

@@ -24,7 +24,7 @@
 	{{ form_start(form) }}
 
 	{# Erreurs générales #}
-	{{ form_errors(form) }} 
+	{{ form_errors(form, {'attr': {'class': 'text-danger text-italic'}}) }} 
 
 	{# Champs du formulaire #}
 	<div class="form-group">
@@ -36,7 +36,7 @@
 		{{ form_errors(form.jour) }}
 	</div>
 
-	<p id="messageBilletsRestant">Il reste <span id="nbreBilletsRestant"></span> billets disponibles pour cette date.</p>
+	<p id="messageBilletsRestant"></p>
 
 	<div class="form-group">
 		{# Génération du label #}

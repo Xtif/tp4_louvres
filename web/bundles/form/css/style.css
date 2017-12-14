@@ -24,6 +24,12 @@ img {
 	cursor: pointer;
 }
 
+/*Erreurs formulaires*/
+.list-unstyled {
+	color: red;
+	font-style: italic;
+}
+
 /*Gif d'attente des appels Ajax*/
 .ajax-loading {
 	z-index: 3;

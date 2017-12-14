@@ -49,15 +49,16 @@ $(document).ready(function() {
 			$.ajax({
 				type: "GET",
 				url: utlVerificationPaiement,
-				data: { "token_id": token.id },
+				data: { "token_id": token.id, "checkpoint": "OK" },
 				dataType: "json",
 				async: true,
-				success: function(data) {				
+				success: function(data) {
+					$('#titre-recapitulatif').html('');
 					$(location).attr('href', urlValidationPaiement);
 					$('.ajax-loading').css('display', 'none');
 		  		$('.div-ajax-loading').css('display', 'none');
 				},
-				error: function() {
+				error: function() {	
 					$('#titre-recapitulatif').html('Une erreur s\'est produite, aucun paiement n\'a été effectué, veuillez recommencer.');
 					$('.ajax-loading').css('display', 'none');
 		  		$('.div-ajax-loading').css('display', 'none');

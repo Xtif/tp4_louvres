@@ -100,6 +100,13 @@ class AjaxController extends Controller
 	// Execution et verification du paiement
 	public function verificationPaiementAction(Request $request) {
 
+		//Recuperation de la session
+		$session = $request->getSession();
+
+		if ($session->get('reservation_id') == null || $request->get('token_id') == null) {
+			return $this->redirectToRoute('info_reservation');
+		}
+
 		// Récupération de la session
 		$session = $request->getSession();
 		
